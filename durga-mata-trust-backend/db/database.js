@@ -42,16 +42,7 @@ const defaultData = {
 
 // Seed data - realistic donors for Maa Durga Trust
 const seedDonors = [
-  { id: uuidv4(), name: 'Dr. Swaroop Singh', amount: 21000, category: 'general', purpose: 'General Donation', displayName: true, anonymous: false, message: 'Jai Maa Durga', createdAt: new Date('2025-03-26').toISOString() },
-  { id: uuidv4(), name: 'Shri Satendra Singh', amount: 11000, category: 'general', purpose: 'Daily Pooja & Rituals', displayName: true, anonymous: false, message: '', createdAt: new Date('2025-04-01').toISOString() },
-  { id: uuidv4(), name: 'Shri Parmendra Singh', amount: 5100, category: 'general', purpose: 'Festival Celebrations', displayName: true, anonymous: false, message: 'Navratri ke liye', createdAt: new Date('2025-04-10').toISOString() },
-  { id: uuidv4(), name: 'Shri Narendra Singh', amount: 5000, category: 'general', purpose: 'Charitable Activities', displayName: true, anonymous: false, message: '', createdAt: new Date('2025-04-15').toISOString() },
-  { id: uuidv4(), name: 'Shri Arvendra Singh', amount: 2100, category: 'general', purpose: 'Religious Education', displayName: true, anonymous: false, message: '', createdAt: new Date('2025-04-20').toISOString() },
-  { id: uuidv4(), name: 'Shri Jeetendra Singh', amount: 2100, category: 'general', purpose: 'General Donation', displayName: true, anonymous: false, message: 'Maa ka ashirwad mile', createdAt: new Date('2025-04-25').toISOString() },
-  { id: uuidv4(), name: 'Kumha Village Samaj', amount: 11000, category: 'general', purpose: 'Festival Celebrations', displayName: true, anonymous: false, message: 'Navratri celebration', createdAt: new Date('2025-05-01').toISOString() },
-  { id: uuidv4(), name: 'Anonymous Donor', amount: 5000, category: 'general', purpose: 'General Donation', displayName: false, anonymous: true, message: '', createdAt: new Date('2025-05-05').toISOString() },
-  { id: uuidv4(), name: 'Smt. Devi Singh', amount: 1100, category: 'general', purpose: 'Daily Pooja & Rituals', displayName: true, anonymous: false, message: '', createdAt: new Date('2025-05-10').toISOString() },
-  { id: uuidv4(), name: 'Shri Vandana Singh', amount: 2100, category: 'general', purpose: 'Temple Maintenance', displayName: true, anonymous: false, message: '', createdAt: new Date('2025-05-15').toISOString() },
+  { id: uuidv4(), name: 'Dr. Swaroop Singh', amount: 21000, category: 'general', purpose: 'General Donation', displayName: true, anonymous: false, message: 'Jai Maa Durga', createdAt: new Date('2025-03-26').toISOString() }
 ];
 
 let db;

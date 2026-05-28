@@ -28,8 +28,8 @@ export function validateDonation(req, res, next) {
   }
 
   const parsedAmount = parseInt(amount);
-  if (!amount || isNaN(parsedAmount) || parsedAmount < 100) {
-    errors.push('Minimum donation amount is ₹100');
+  if (!amount || isNaN(parsedAmount) || parsedAmount < 1) {
+    errors.push('Minimum donation amount is ₹1');
   }
   if (parsedAmount > 10000000) {
     errors.push('Maximum donation amount is ₹1,00,00,000');

@@ -2,7 +2,7 @@
 // Centralised API client for the Temple Donations backend.
 // Base URL reads from Vite env var; falls back to localhost:5000 for dev.
 
-const BASE = import.meta?.env?.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api';
+const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000/api';
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {

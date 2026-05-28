@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({ origin: ['http://localhost:3000', 'http://localhost:5173'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:3000', 'https://durga-mata-trust-kumha.vercel.app'], credentials: true }));
 app.use(morgan('dev'));
 app.use(express.json());
 

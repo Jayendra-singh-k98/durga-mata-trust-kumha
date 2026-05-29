@@ -489,14 +489,14 @@ export default function Donations() {
 
           <div className="mt-10 pt-8 border-t border-white/30">
             <p className="text-sm opacity-80 mb-6">For donation queries, receipts, or any assistance</p>
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
               {[
                 { icon: Mail, label: 'Email', value: TRUST.email },
                 { icon: Phone, label: 'Phone', value: TRUST.phone },
                 { icon: Clock, label: 'Office Hours', value: TRUST.officeHours },
                 { icon: MapPin, label: 'Address', value: 'A-975, Siddharth Nagar, Jaipur' },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="bg-white/20 backdrop-blur-sm px-5 py-3 rounded-lg text-left min-w-180">
+                <div key={label} className="bg-white/20 backdrop-blur-sm px-5 py-3 rounded-lg text-left w-full">
                   <div className="flex items-center gap-2 mb-1">
                     <Icon className="w-4 h-4 opacity-80" />
                     <p className="text-xs opacity-80">{label}</p>

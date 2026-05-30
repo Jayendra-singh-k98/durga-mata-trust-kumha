@@ -6,46 +6,64 @@ const TrustMembers = () => {
   const trustees = [
     {
       name: 'Dr. Swaroop Singh',
+      nameHindi: 'डॉ. स्वरूप सिंह',
       role: 'Chairman & Life Trustee',
-      description: 'Provides overall leadership and long-term guidance to the trust. Oversees policy decisions and ensures that all religious, charitable, and social activities are conducted in accordance with the trust deed.',
+      roleHindi: 'अध्यक्ष / मुख्य ट्रस्टी (आजीवन)',
+      description: 'Founder and Life Chairman of Maa Durga Charitable Trust Kumha. Provides overall leadership and ensures all religious, charitable and social activities are conducted in accordance with the trust deed. His position is permanent, irrevocable and honorary.',
+      photo: '/trustees/swaroop-singh.jpg',
       icon: Award,
       color: 'blue'
     },
     {
-      name: 'Satendra Singh',
-      role: 'Vice Chairman',
+      name: 'Shri Satyendra Singh',
+      nameHindi: 'श्री सत्येन्द्र सिंह',
+      role: 'Vice President',
+      roleHindi: 'उपाध्यक्ष',
       description: 'Supports the Chairman in trust administration and assists in planning and execution of religious and charitable activities of the trust.',
+      photo: '/trustees/satyendra-singh.jpg',
       icon: Shield,
       color: 'indigo'
     },
     {
-      name: 'Parmendra Singh',
+      name: 'Shri Parmendra Singh',
+      nameHindi: 'श्री परमेन्द्र सिंह',
       role: 'Secretary',
-      description: 'Handles trust records, correspondence, and statutory documentation, and coordinates meetings and administrative functions.',
+      roleHindi: 'सचिव',
+      description: 'Handles trust records, correspondence, statutory documentation and coordinates meetings and administrative functions of the trust.',
+      photo: '/trustees/parmendra-singh.jpg',
       icon: BookOpen,
       color: 'green'
     },
     {
-      name: 'Narendra Singh',
+      name: 'Shri Narendra Singh',
+      nameHindi: 'श्री नरेन्द्र सिंह',
       role: 'Treasurer',
-      description: 'Responsible for managing the financial affairs of the trust, maintaining accounts, and ensuring transparent utilization of funds.',
+      roleHindi: 'कोषाध्यक्ष',
+      description: 'Responsible for managing financial affairs of the trust, maintaining accounts and ensuring transparent utilization of funds for trust objectives.',
+      photo: '/trustees/narendra-singh.jpg',
       icon: Award,
       color: 'orange'
     },
     {
-      name: 'Jeetendra Singh',
-      role: 'Trustee',
-      description: 'Engages in planning and supervision of trust activities, ensuring alignment with the trust’s religious and social objectives.',
+      name: 'Shri Arvendra Singh',
+      nameHindi: 'श्री अरवेन्द्र सिंह',
+      role: 'Member',
+      roleHindi: 'सदस्य',
+      description: 'Actively participates in trust governance and contributes to decision-making and implementation of trust objectives.',
+      photo: '/trustees/arvendra-singh.jpg',
+      icon: Users,
+      color: 'purple'
+    },
+    {
+      name: 'Shri Jeetendra Singh',
+      nameHindi: 'श्री जीतेन्द्र सिंह',
+      role: 'Member',
+      roleHindi: 'सदस्य',
+      description: 'Engages in planning and supervision of trust activities ensuring alignment with the trust\'s religious and social objectives.',
+      photo: '/trustees/jeetendra-singh.jpg',
       icon: Heart,
       color: 'red'
     },
-    {
-      name: 'Arvendra Singh',
-      role: 'Trustee',
-      description: 'Actively participates in trust governance and contributes to decision-making and implementation of trust objectives.',
-      icon: Users,
-      color: 'purple'
-    }
   ];
 
   const getColorClasses = (color) => {
@@ -78,38 +96,21 @@ const TrustMembers = () => {
       <div className="max-w-6xl mx-auto px-4 py-12">
 
         {/* Introduction */}
-        <section className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12">
-          <div className="space-y-6 text-gray-700 leading-relaxed">
-            <p className="text-lg">
-              Maa Durga Charitable Trust is administered by a duly constituted Board of
-              Trustees appointed in accordance with the provisions of the registered
-              trust deed. The trustees are respected members of the community who have
-              accepted the responsibility of managing the trust and its activities in
-              a lawful, transparent, and accountable manner.
-            </p>
-
-            <p className="text-lg">
-              The Board of Trustees is responsible for all major decisions relating to
-              the administration of the trust, including religious activities, social
-              and charitable programs, financial management, and overall governance.
-              All actions and decisions are taken collectively, in compliance with the
-              trust deed and applicable statutory provisions.
-            </p>
-
-            <p className="text-lg">
-              The trustees serve the trust voluntarily and do not receive any salary or
-              remuneration for their services. They meet periodically to review trust
-              operations, plan activities, and ensure that the objectives of the trust
-              are fulfilled with integrity, dedication, and a spirit of public service.
-            </p>
-          </div>
-
-          <div className="mt-8 bg-indigo-50 border-l-4 border-indigo-600 p-6 rounded-lg">
-            <p className="text-gray-800 font-semibold">
-              “The trustees act as custodians of the trust, entrusted with the duty to
-              safeguard its assets, uphold its objectives, and utilize its resources
-              solely for religious, social, and charitable purposes, as laid down in
-              the trust deed.”
+        <section className="bg-white rounded-2xl shadow-xl p-8 mb-12">
+          <p className="text-lg text-gray-700 leading-relaxed mb-4">
+            Maa Durga Charitable Trust Kumha is registered under the Rajasthan Public Trusts Act 1959
+            (Reg. No. 310, Jaipur, 2025). The trust is governed by a Board of 6 trustees appointed
+            as per the registered trust deed dated 26th March 2025.
+          </p>
+          <p className="text-lg text-gray-700 leading-relaxed mb-4">
+            All trustees serve voluntarily without any salary or remuneration. Dr. Swaroop Singh
+            is the Life Chairman and his position is permanent and irrevocable as per the trust deed.
+          </p>
+          <div className="bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-lg">
+            <p className="text-gray-800 text-sm">
+              <strong>Note:</strong> The number of trustees may be increased by the founder Chief Trustee
+              by passing a resolution. In case of any dispute regarding trust formation, the decision
+              of the Chief Trustee shall be final.
             </p>
           </div>
         </section>
@@ -130,10 +131,23 @@ const TrustMembers = () => {
                   className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border-t-4"
                   style={{ borderTopColor: `var(--${trustee.color}-600)` }}
                 >
-                  {/* Photo Placeholder */}
-                  <div className={`bg-linear-to-br ${getColorClasses(trustee.color)} h-48 flex items-center justify-center`}>
-                    <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-6">
-                      <User className="w-20 h-20 text-white" />
+                  <div className={`bg-linear-to-br ${getColorClasses(trustee.color)} h-52 flex items-center justify-center relative overflow-hidden`}>
+                    <img
+                      src={trustee.photo}
+                      alt={trustee.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div
+                      className="absolute inset-0 items-center justify-center hidden"
+                      style={{ display: 'none' }}
+                    >
+                      <div className="bg-white/20 backdrop-blur-sm rounded-full p-6">
+                        <User className="w-20 h-20 text-white" />
+                      </div>
                     </div>
                   </div>
 
@@ -148,6 +162,7 @@ const TrustMembers = () => {
                     <h3 className="text-2xl font-bold text-gray-800 mb-3">
                       {trustee.name}
                     </h3>
+                    <p className="text-sm text-gray-500 mb-3">{trustee.nameHindi}</p>
                     <p className="text-gray-600 leading-relaxed text-sm">
                       {trustee.description}
                     </p>

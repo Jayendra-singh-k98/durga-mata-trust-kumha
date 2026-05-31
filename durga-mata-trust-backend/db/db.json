@@ -1,24 +1,5 @@
 {
   "donations": [
-    {
-      "id": "6a5cafa7-1f70-40ae-b760-1a0d9434db74",
-      "donationId": "DON-1779943166846-4D462F",
-      "fullName": "Jayendra Singh",
-      "email": "jay290120@gmail.com",
-      "phone": "07568776225",
-      "panNumber": "SKRPS0883I",
-      "purpose": "Festival Celebrations",
-      "amount": 2,
-      "message": "",
-      "displayName": true,
-      "anonymous": false,
-      "status": "paid",
-      "paymentId": "TXN_SIM_1779943172687",
-      "paymentMethod": "simulated",
-      "receiptSent": false,
-      "createdAt": "2026-05-28T04:39:26.846Z",
-      "updatedAt": "2026-05-28T04:39:32.687Z"
-    }
   ],
   "donors": [
     {
@@ -31,31 +12,9 @@
       "anonymous": false,
       "message": "Jai Maa Durga",
       "createdAt": "2025-03-26T00:00:00.000Z"
-    },
-    {
-      "id": "821c86cd-f668-4678-a675-afbfae30accf",
-      "donationId": "DON-1779943166846-4D462F",
-      "name": "Jayendra Singh",
-      "amount": 2,
-      "category": "general",
-      "purpose": "Festival Celebrations",
-      "displayName": true,
-      "anonymous": false,
-      "message": "",
-      "createdAt": "2026-05-28T04:39:32.688Z"
     }
   ],
   "payments": [
-    {
-      "id": "adde63d6-3b44-410e-9921-d8d32a7928ef",
-      "sessionId": "PAY-1779943172663-BE9183EC",
-      "donationId": "DON-1779943166846-4D462F",
-      "amount": 2,
-      "method": "upi",
-      "status": "initiated",
-      "expiresAt": "2026-05-28T04:54:32.663Z",
-      "createdAt": "2026-05-28T04:39:32.664Z"
-    }
   ],
   "settings": {}
 }

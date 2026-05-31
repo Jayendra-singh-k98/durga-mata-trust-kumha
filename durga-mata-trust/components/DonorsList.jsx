@@ -14,9 +14,9 @@ function timeAgo(iso) {
   const d = Math.floor(diff / 86400000);
   if (d === 0) return 'Today';
   if (d === 1) return 'Yesterday';
-  if (d < 30)  return `${d} days ago`;
+  if (d < 30) return `${d} days ago`;
   const m = Math.floor(d / 30);
-  if (m < 12)  return `${m} month${m > 1 ? 's' : ''} ago`;
+  if (m < 12) return `${m} month${m > 1 ? 's' : ''} ago`;
   return `${Math.floor(m / 12)} year${Math.floor(m / 12) > 1 ? 's' : ''} ago`;
 }
 
@@ -33,10 +33,10 @@ function Medal({ rank }) {
 }
 
 export default function DonorsList() {
-  const [donors, setDonors]   = useState([]);
-  const [stats, setStats]     = useState(null);
+  const [donors, setDonors] = useState([]);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   async function load() {
     setLoading(true);
@@ -63,6 +63,8 @@ export default function DonorsList() {
   const col2 = donors.slice(10, 20);  // rank 11–20
   const col3 = donors.slice(20, 30);  // rank 21–30
 
+  const showCol2 = col2.length > 0;
+  const showCol3 = col3.length > 0;
   /* ── Loading ── */
   if (loading) return (
     <section className="bg-linear-to-br from-yellow-50 to-orange-50 rounded-2xl shadow-xl p-12 mb-12 border-2 border-orange-200 text-center">
@@ -104,10 +106,10 @@ export default function DonorsList() {
       {stats && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Total Donors',   value: stats.total.toLocaleString('en-IN'),                     icon: '🙏' },
-            { label: 'Total Raised',   value: `₹${Number(stats.totalAmount).toLocaleString('en-IN')}`, icon: '💰' },
-            { label: 'Maha Daan',      value: stats.maha_daan,                                          icon: '🏆' },
-            { label: 'Top Donors',     value: Math.min(donors.length, 30),                              icon: '⭐' },
+            { label: 'Total Donors', value: stats.total.toLocaleString('en-IN'), icon: '🙏' },
+            { label: 'Total Raised', value: `₹${Number(stats.totalAmount).toLocaleString('en-IN')}`, icon: '💰' },
+            { label: 'Maha Daan', value: stats.maha_daan, icon: '🏆' },
+            { label: 'Top Donors', value: Math.min(donors.length, 30), icon: '⭐' },
           ].map(({ label, value, icon }) => (
             <div key={label} className="bg-white rounded-xl p-4 text-center shadow">
               <div className="text-2xl mb-1">{icon}</div>
@@ -143,7 +145,8 @@ export default function DonorsList() {
             <span className="ml-auto text-white/80 text-sm">Ranked by contribution</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-orange-100">
+          <div className={`grid grid-cols-1 divide-y md:divide-y-0 md:divide-x divide-orange-100 ${showCol3 ? 'md:grid-cols-3' : showCol2 ? 'md:grid-cols-2' : 'md:grid-cols-1'
+            }`}>
 
             {/* Column 1 — Rank 1–10 */}
             <div>
@@ -156,46 +159,40 @@ export default function DonorsList() {
                 {col1.map((d, i) => (
                   <DonorRow key={d.id || i} donor={d} rank={i + 1} />
                 ))}
-                {/* Fill empty rows so columns are equal height */}
-                {Array.from({ length: 10 - col1.length }).map((_, i) => (
-                  <EmptyRow key={`e1-${i}`} />
-                ))}
               </div>
             </div>
 
             {/* Column 2 — Rank 11–20 */}
-            <div>
-              <div className="bg-orange-50 px-4 py-2 border-b border-orange-100">
-                <p className="text-xs font-bold text-orange-600 uppercase tracking-wide text-center">
-                  Rank 11 – 20
-                </p>
+            {showCol2 && (
+              <div>
+                <div className="bg-orange-50 px-4 py-2 border-b border-orange-100">
+                  <p className="text-xs font-bold text-orange-600 uppercase tracking-wide text-center">
+                    Rank 11 – 20
+                  </p>
+                </div>
+                <div className="divide-y divide-gray-50">
+                  {col2.map((d, i) => (
+                    <DonorRow key={d.id || i} donor={d} rank={i + 11} />
+                  ))}
+                </div>
               </div>
-              <div className="divide-y divide-gray-50">
-                {col2.map((d, i) => (
-                  <DonorRow key={d.id || i} donor={d} rank={i + 11} />
-                ))}
-                {Array.from({ length: 10 - col2.length }).map((_, i) => (
-                  <EmptyRow key={`e2-${i}`} />
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Column 3 — Rank 21–30 */}
-            <div>
-              <div className="bg-orange-50 px-4 py-2 border-b border-orange-100">
-                <p className="text-xs font-bold text-orange-600 uppercase tracking-wide text-center">
-                  Rank 21 – 30
-                </p>
+            {showCol3 && (
+              <div>
+                <div className="bg-orange-50 px-4 py-2 border-b border-orange-100">
+                  <p className="text-xs font-bold text-orange-600 uppercase tracking-wide text-center">
+                    Rank 21 – 30
+                  </p>
+                </div>
+                <div className="divide-y divide-gray-50">
+                  {col3.map((d, i) => (
+                    <DonorRow key={d.id || i} donor={d} rank={i + 21} />
+                  ))}
+                </div>
               </div>
-              <div className="divide-y divide-gray-50">
-                {col3.map((d, i) => (
-                  <DonorRow key={d.id || i} donor={d} rank={i + 21} />
-                ))}
-                {Array.from({ length: 10 - col3.length }).map((_, i) => (
-                  <EmptyRow key={`e3-${i}`} />
-                ))}
-              </div>
-            </div>
+            )}
 
           </div>
         </div>
@@ -229,16 +226,6 @@ function DonorRow({ donor, rank }) {
         <p className="text-orange-600 font-bold text-sm">{fmt(donor.amount)}</p>
         <p className="text-gray-400 text-xs">{timeAgo(donor.createdAt)}</p>
       </div>
-    </div>
-  );
-}
-
-/* ── Empty filler row to keep columns even ── */
-function EmptyRow() {
-  return (
-    <div className="flex items-center gap-3 px-4 py-3 opacity-0 select-none pointer-events-none">
-      <span className="w-6 h-6" />
-      <div className="flex-1"><p className="text-sm">–</p></div>
     </div>
   );
 }

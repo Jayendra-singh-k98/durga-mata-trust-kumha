@@ -96,7 +96,7 @@ const HomePage = () => {
             माँ दुर्गा चैरिटेबल ट्रस्ट
           </h1>
           <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-            Shri Durga Mata
+            Maa Durga Charitable Trust
           </h2>
           <div className="bg-orange-600 bg-opacity-20 backdrop-blur-sm rounded-lg py-6 px-8 inline-block mb-6">
             <p className="text-xl md:text-2xl italic font-light mb-2">

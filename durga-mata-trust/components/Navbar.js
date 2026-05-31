@@ -16,7 +16,6 @@ const Navbar = ({ currentPage }) => {
       label: 'About', 
       icon: Info,
       dropdown: [
-        { id: 'about-temple', label: 'About Temple' },
         { id: 'about-trust', label: 'About Trust' },
         { id: 'trust-members', label: 'Trust Members' }
       ]

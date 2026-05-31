@@ -163,7 +163,7 @@ export default function Donations() {
             <div className="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-r-lg">
               <p className="text-gray-800">
                 <strong>Note:</strong> {TRUST.name} is a registered public trust under Rajasthan Public Trust Act 1959 (Reg. No. {TRUST.regNo}).
-                Please contact our office at <strong>{TRUST.email}</strong> or <strong>{TRUST.phone}</strong> for donation receipts and tax-related queries.
+                Please contact our office at <strong>{TRUST.email}</strong> for donation receipts and tax-related queries.
               </p>
             </div>
           </div>
@@ -492,8 +492,6 @@ export default function Donations() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto w-full">
               {[
                 { icon: Mail, label: 'Email', value: TRUST.email },
-                { icon: Phone, label: 'Phone', value: TRUST.phone },
-                { icon: Clock, label: 'Office Hours', value: TRUST.officeHours },
                 { icon: MapPin, label: 'Address', value: 'A-975, Siddharth Nagar, Jaipur' },
               ].map(({ icon: Icon, label, value }) => (
                 <div key={label} className="bg-white/20 backdrop-blur-sm px-5 py-3 rounded-lg text-left w-full">

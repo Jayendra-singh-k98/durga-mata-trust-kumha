@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube} from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Clock} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -80,10 +80,9 @@ const Footer = () => {
               </div>
 
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-orange-400 shrink-0" />
+                <Clock className="w-5 h-5 text-orange-400 shrink-0" />
                 <div className="text-gray-300">
-                  <p>+91 9413330548</p>
-                  <p className="text-xs text-gray-400">Mon-Fri: 10 AM - 5 PM</p>
+                  <p>Mon-Fri: 10 AM - 5 PM</p>
                 </div>
               </div>
 

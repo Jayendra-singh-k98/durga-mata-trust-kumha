@@ -125,18 +125,22 @@ const HomePage = () => {
 
           <div className="space-y-6 text-gray-700 leading-relaxed">
             <p className="text-lg">
-              Maa Durga Charitable Trust is a registered religious and social organization,
-              dedicated to social service, religious activities, and public welfare under
-              the divine grace and guidance of Maa Durga. The trust is located in Kumha, Bharatpur, Jaipur
-              (Rajasthan) and is duly registered under the Indian Trusts Act.
+              Maa Durga Temple was established on <strong>11th July 2021</strong> in
+              Kumha, Jaipur (Rajasthan), born from the deep devotion and collective faith
+              of the local community. Since its inception, the temple has been a sacred
+              center of worship and spiritual gathering for devotees of Maa Durga.
             </p>
-
             <p className="text-lg">
-              The primary objectives of the trust include conducting religious activities,
-              promoting social service, encouraging education, supporting the poor and
-              underprivileged, organizing cultural programs, and fostering human values.
-              The trust works for the welfare of all sections of society without any
-              discrimination.
+              To give the temple a formal legal and charitable structure, <strong>Maa Durga
+                Charitable Trust Kumha</strong> was founded on 26th March 2025 by
+              Dr. Swaroop Singh and registered under the Rajasthan Public Trust Act 1959
+              (Reg. No. 310, Jaipur, 2025) on 3rd October 2025.
+            </p>
+            <p className="text-lg">
+              The trust is now working towards constructing a permanent Devsthan
+              (temple building), Murti Sthapana, and Pran Pratishtha — after which the
+              temple will be fully dedicated to all devotees for darshan, pooja, and
+              spiritual activities as per Vedic traditions.
             </p>
 
           </div>

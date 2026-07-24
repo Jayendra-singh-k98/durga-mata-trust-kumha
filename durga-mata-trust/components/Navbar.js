@@ -31,11 +31,6 @@ const Navbar = ({ currentPage }) => {
     setAboutDropdown(false);
   };
 
-  const handleClickOutside = (e) => {
-  if (!dropdownRef.current.contains(e.target)) {
-    setAboutDropdown(false);
-  }
-};
 
 
   return (

@@ -1,10 +1,9 @@
 "use client";
 import React from 'react';
 import { Phone, Mail, MapPin, Facebook, Instagram, Youtube, Clock} from 'lucide-react';
-import { useRouter } from 'next/navigation';
+ 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const router = useRouter();
 
   return (
     <footer id="footer-map" className="bg-linear-to-b from-gray-800 to-gray-900 text-white">

@@ -27,8 +27,7 @@ const HomePage = () => {
 
         const parsedEvents = results.data.map((event) => {
           if (!event.date) return null;
-
-          // Convert DD-MM-YYYY to Date object
+          
           const formattedDate = new Date(
             event.date
           );

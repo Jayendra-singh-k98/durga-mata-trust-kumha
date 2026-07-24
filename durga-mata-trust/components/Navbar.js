@@ -31,12 +31,6 @@ const Navbar = ({ currentPage }) => {
     setAboutDropdown(false);
   };
 
-  const handleClickOutside = (e) => {
-  if (!dropdownRef.current.contains(e.target)) {
-    setAboutDropdown(false);
-  }
-};
-
 
   return (
     <nav className="bg-linear-to-r from-orange-600 via-red-600 to-orange-600 shadow-lg sticky top-0 z-50">

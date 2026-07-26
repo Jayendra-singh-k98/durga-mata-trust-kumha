@@ -29,7 +29,7 @@ router.post('/', validateDonation, async (req, res) => {
       purpose,
       amount: parsedAmount,
       message: message || '',
-      displayName: !!displayName,
+      displayName: !!displayName, // !! converts any value into a Boolean.
       anonymous: !displayName,
       status: 'pending',           // pending → paid → receipt_sent
       paymentId: null,

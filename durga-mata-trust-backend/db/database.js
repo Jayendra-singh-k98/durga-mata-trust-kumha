@@ -40,10 +40,6 @@ const defaultData = {
   }
 };
 
-// Seed data - realistic donors for Maa Durga Trust
-const seedDonors = [
-  { id: uuidv4(), name: 'Dr. Swaroop Singh', amount: 21000, category: 'general', purpose: 'General Donation', displayName: true, anonymous: false, message: 'Jai Maa Durga', createdAt: new Date('2025-03-26').toISOString() }
-];
 
 let db;
 
@@ -51,9 +47,7 @@ export async function initDB() {
   db = await JSONFilePreset(dbPath, defaultData);
 
   if (!db.data.donors || db.data.donors.length === 0) {
-    db.data.donors = seedDonors;
     await db.write();
-    console.log('✅  Database seeded with', seedDonors.length, 'sample donors');
   }
 
   console.log(`✅  Database initialized at ${dbPath}`);

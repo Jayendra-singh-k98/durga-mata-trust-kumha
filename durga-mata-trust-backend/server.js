@@ -5,11 +5,18 @@ import morgan from 'morgan';
 import { donationRoutes } from './routes/donations.js';
 import { donorRoutes } from './routes/donors.js';
 import { paymentRoutes } from './routes/payments.js';
-import { adminRoutes } from './routes/admin.js';
+// import { adminRoutes } from './routes/admin.js';
 import { initDB } from './db/database.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Temple Donations API is running 🚩'
+    });
+});
 
 // Middleware
 app.use(helmet({ contentSecurityPolicy: false }));
@@ -24,12 +31,13 @@ await initDB();
 app.use('/api/donations', donationRoutes);
 app.use('/api/donors', donorRoutes);
 app.use('/api/payments', paymentRoutes);
-app.use('/api/admin', adminRoutes);
+// app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString(), server: 'Temple Donations API' });
 });
+
 
 // 404 handler
 app.use((req, res) => {
@@ -47,5 +55,4 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`\n🛕  Temple Donations API running on http://localhost:${PORT}`);
-  console.log(`📊  Admin dashboard: http://localhost:${PORT}/api/admin/stats\n`);
 });

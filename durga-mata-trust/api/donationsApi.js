@@ -72,18 +72,23 @@ export async function initiatePayment(donationId, method) {
 }
 
 /**
- * Verify a payment after gateway callback.
- * Pass the sessionId and transactionId returned by the gateway.
+ * Verify a payment after the Razorpay Checkout `handler` callback fires.
+ * Pass through the exact fields Razorpay's handler gives you:
+ * razorpay_order_id, razorpay_payment_id, razorpay_signature.
+ * The server recomputes the signature — this call is what actually
+ * confirms the payment; nothing about the payment is trusted from the client.
  */
-export async function verifyPayment({ sessionId, donationId, transactionId, status }) {
+
+export async function verifyPayment({ sessionId, donationId, razorpay_order_id, razorpay_payment_id, razorpay_signature }) {
   return request('/payments/verify', {
     method: 'POST',
-    body: JSON.stringify({ sessionId, donationId, transactionId, status }),
+    body: JSON.stringify({ sessionId, donationId, razorpay_order_id, razorpay_payment_id, razorpay_signature }),
   });
 }
 
+
 /**
- * Simulate a payment (dev / demo only).
+ * Simulate a payment (dev / demo only — disabled server-side in production).
  * outcome: 'success' | 'failure'
  * Returns receipt on success.
  */
@@ -93,4 +98,8 @@ export async function simulatePayment(donationId, outcome = 'success') {
     body: JSON.stringify({ donationId, outcome }),
   });
 }
-
+ 
+/** Get a payment session's current status by sessionId. */
+export async function getPaymentStatus(sessionId) {
+  return request(`/payments/${sessionId}`);
+}

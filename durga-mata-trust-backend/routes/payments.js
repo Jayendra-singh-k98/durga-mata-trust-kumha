@@ -1,10 +1,28 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { Router } from 'express';
+import crypto from 'crypto';
+import Razorpay from 'razorpay';
 import { v4 as uuidv4 } from 'uuid';
 import { getDB, getDonorCategory } from '../db/database.js';
 
 const router = Router();
 
-// POST /api/payments/initiate — Start a payment session
+// Server-side only. NEVER prefix these with NEXT_PUBLIC_ / VITE_ — that
+// exposes them to the browser bundle. Only the key_id may ever reach the client.
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+
+if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
+  console.warn('[payments] RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET are not set. Payment routes will fail.');
+}
+
+const razorpay = new Razorpay({
+  key_id: RAZORPAY_KEY_ID,
+  key_secret: RAZORPAY_KEY_SECRET,
+});
+
+// POST /api/payments/initiate — Start a payment session and create a real Razorpay order
 router.post('/initiate', async (req, res) => {
   try {
     const db = getDB();
@@ -26,6 +44,27 @@ router.post('/initiate', async (req, res) => {
     const sessionId = `PAY-${Date.now()}-${uuidv4().slice(0, 8).toUpperCase()}`;
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000).toISOString(); // 15 min expiry
 
+    // Amount must be in the smallest currency unit (paise) for Razorpay.
+    const amountPaise = Math.round(Number(donation.amount) * 100);
+    if (!amountPaise || amountPaise <= 0) {
+      return res.status(400).json({ error: 'Invalid donation amount' });
+    }
+
+    // Create a REAL order with Razorpay. This is the order_id Checkout needs;
+    // a locally-invented id will be rejected by Razorpay's checkout.js.
+    let order;
+    try {
+      order = await razorpay.orders.create({
+        amount: amountPaise,
+        currency: 'INR',
+        receipt: sessionId,
+        notes: { donationId: donation.donationId, purpose: donation.purpose || '' },
+      });
+    } catch (razorpayErr) {
+      console.error('Razorpay order creation failed:', razorpayErr);
+      return res.status(502).json({ error: 'Could not create payment order. Please try again.' });
+    }
+
     const paymentSession = {
       id: uuidv4(),
       sessionId,
@@ -33,8 +72,9 @@ router.post('/initiate', async (req, res) => {
       amount: donation.amount,
       method,
       status: 'initiated',
+      razorpayOrderId: order.id,
       expiresAt,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
     db.data.payments.push(paymentSession);
@@ -47,14 +87,13 @@ router.post('/initiate', async (req, res) => {
         amount: donation.amount,
         method,
         expiresAt,
-        // In real integration, this would be razorpay/payu order id + key
         gateway: {
-          orderId: `order_${sessionId}`,
-          currency: 'INR',
-          key: 'rzp_test_XXXX_mock',  // Mock key
-          callbackUrl: `http://localhost:5000/api/payments/callback`
-        }
-      }
+          keyId: RAZORPAY_KEY_ID,
+          orderId: order.id,
+          amount: order.amount,
+          currency: order.currency,
+        },
+      },
     });
   } catch (err) {
     console.error(err);
@@ -62,16 +101,22 @@ router.post('/initiate', async (req, res) => {
   }
 });
 
-// POST /api/payments/verify — Verify payment (called after gateway callback)
+// POST /api/payments/verify — Verify payment signature (called after Razorpay checkout succeeds)
 router.post('/verify', async (req, res) => {
   try {
     const db = getDB();
     await db.read();
 
-    const { sessionId, donationId, transactionId, status } = req.body;
+    const {
+      sessionId,
+      donationId,
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+    } = req.body;
 
-    if (!sessionId || !donationId) {
-      return res.status(400).json({ error: 'sessionId and donationId are required' });
+    if (!sessionId || !donationId || !razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ error: 'Missing required verification fields' });
     }
 
     const paymentIdx = db.data.payments.findIndex(p => p.sessionId === sessionId);
@@ -82,28 +127,42 @@ router.post('/verify', async (req, res) => {
     if (paymentIdx === -1) return res.status(404).json({ error: 'Payment session not found' });
     if (donationIdx === -1) return res.status(404).json({ error: 'Donation not found' });
 
-    const paymentStatus = status === 'success' ? 'success' : 'failed';
-    const donationStatus = status === 'success' ? 'paid' : 'failed';
+    const paymentSession = db.data.payments[paymentIdx];
 
-    // Update payment session
+    if (paymentSession.razorpayOrderId !== razorpay_order_id) {
+      return res.status(400).json({ error: 'Order ID mismatch for this session' });
+    }
+
+    // The ONLY trustworthy way to know a payment succeeded: recompute the
+    // HMAC signature server-side with the secret key and compare it.
+    // Never trust a client-supplied "status" field for this.
+    const expectedSignature = crypto
+      .createHmac('sha256', RAZORPAY_KEY_SECRET)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
+
+    const isValid = expectedSignature === razorpay_signature;
+
+    const paymentStatus = isValid ? 'success' : 'failed';
+    const donationStatus = isValid ? 'paid' : 'failed';
+
     db.data.payments[paymentIdx] = {
-      ...db.data.payments[paymentIdx],
+      ...paymentSession,
       status: paymentStatus,
-      transactionId: transactionId || `TXN_MOCK_${Date.now()}`,
-      verifiedAt: new Date().toISOString()
+      razorpayPaymentId: razorpay_payment_id,
+      transactionId: razorpay_payment_id,
+      verifiedAt: new Date().toISOString(),
     };
 
-    // Update donation status
     const donation = db.data.donations[donationIdx];
     db.data.donations[donationIdx] = {
       ...donation,
       status: donationStatus,
-      paymentId: transactionId || `TXN_MOCK_${Date.now()}`,
-      paymentMethod: db.data.payments[paymentIdx].method,
-      updatedAt: new Date().toISOString()
+      paymentId: razorpay_payment_id,
+      paymentMethod: paymentSession.method,
+      updatedAt: new Date().toISOString(),
     };
 
-    // If paid, add to public donors list
     if (donationStatus === 'paid') {
       const d = db.data.donations[donationIdx];
       const alreadyDonor = db.data.donors.some(donor => donor.donationId === d.donationId);
@@ -119,30 +178,34 @@ router.post('/verify', async (req, res) => {
           displayName: d.displayName,
           anonymous: !d.displayName,
           message: d.message,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         });
       }
     }
 
     await db.write();
 
-    const receipt = donationStatus === 'paid' ? {
+    if (!isValid) {
+      return res.status(400).json({
+        success: false,
+        error: 'Payment signature verification failed',
+        data: { status: paymentStatus, donationStatus },
+      });
+    }
+
+    const receipt = {
       receiptNumber: `RCPT-${donation.donationId}`,
       amount: donation.amount,
       name: donation.fullName,
       purpose: donation.purpose,
       date: new Date().toLocaleDateString('en-IN'),
-      transactionId: transactionId || `TXN_MOCK_${Date.now()}`,
-      note80G: '80G receipt will be emailed within 7 working days'
-    } : null;
+      transactionId: razorpay_payment_id,
+      note80G: '80G receipt will be emailed within 7 working days',
+    };
 
     res.json({
       success: true,
-      data: {
-        status: paymentStatus,
-        donationStatus,
-        receipt
-      }
+      data: { status: paymentStatus, donationStatus, receipt },
     });
   } catch (err) {
     console.error(err);
@@ -150,8 +213,9 @@ router.post('/verify', async (req, res) => {
   }
 });
 
-// POST /api/payments/simulate — Test endpoint to simulate a payment (dev/demo)
+// POST /api/payments/simulate — Test endpoint to simulate a payment (dev/demo only, disabled in production)
 router.post('/simulate', async (req, res) => {
+
   try {
     const db = getDB();
     await db.read();
@@ -173,7 +237,7 @@ router.post('/simulate', async (req, res) => {
       status: isSuccess ? 'paid' : 'failed',
       paymentId: transactionId,
       paymentMethod: 'simulated',
-      updatedAt: new Date().toISOString()
+      updatedAt: new Date().toISOString(),
     };
 
     if (isSuccess) {
@@ -189,7 +253,7 @@ router.post('/simulate', async (req, res) => {
           displayName: donation.displayName,
           anonymous: !donation.displayName,
           message: donation.message,
-          createdAt: new Date().toISOString()
+          createdAt: new Date().toISOString(),
         });
       }
     }
@@ -203,16 +267,18 @@ router.post('/simulate', async (req, res) => {
         transactionId,
         donationId: donation.donationId,
         amount: donation.amount,
-        receipt: isSuccess ? {
-          receiptNumber: `RCPT-${donation.donationId}`,
-          amount: donation.amount,
-          name: donation.fullName,
-          purpose: donation.purpose,
-          date: new Date().toLocaleDateString('en-IN'),
-          transactionId,
-          note80G: '80G receipt will be emailed within 7 working days'
-        } : null
-      }
+        receipt: isSuccess
+          ? {
+              receiptNumber: `RCPT-${donation.donationId}`,
+              amount: donation.amount,
+              name: donation.fullName,
+              purpose: donation.purpose,
+              date: new Date().toLocaleDateString('en-IN'),
+              transactionId,
+              note80G: '80G receipt will be emailed within 7 working days',
+            }
+          : null,
+      },
     });
   } catch (err) {
     console.error(err);

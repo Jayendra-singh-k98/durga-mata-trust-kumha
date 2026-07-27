@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { X, Smartphone, CreditCard, Building2, Wallet, CheckCircle, XCircle, Loader2, Shield, Copy, Check } from 'lucide-react';
-import { initiatePayment, simulatePayment } from '@/api/donationsApi';
+import { initiatePayment, verifyPayment } from '@/api/donationsApi';
 
 const TRUST_UPI = 'vyapar.176548150186@hdfcbank';
 const TRUST_NAME = 'Maa Durga Charitable Trust Kumha';
@@ -21,16 +21,80 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
 
   const { donationId, amount, purpose } = donation;
 
-  async function handlePay(outcome = 'success') {
+  function loadRazorpay() {
+    return new Promise((resolve) => {
+      if (window.Razorpay) return resolve(true);
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  }
+
+  // Main pay flow: create a real order on our server, open Razorpay Checkout,
+  // then verify the signature on our server before treating it as paid.
+  async function handlePay() {
     setStep('processing');
     try {
-      await initiatePayment(donationId, method);
-      const res = await simulatePayment(donationId, outcome);
-      setResult({ ok: outcome === 'success', ...res.data });
+      const initRes = await initiatePayment(donationId, method);
+      const { sessionId, gateway } = initRes.data;
+
+      const loaded = await loadRazorpay();
+      if (!loaded) {
+        setResult({ ok: false, error: 'Payment gateway failed to load. Please check your connection and try again.' });
+        setStep('result');
+        return;
+      }
+
+      const razorpayKey = gateway.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      if (!razorpayKey) {
+        throw new Error('Razorpay public key is not configured.');
+      }
+
+      const options = {
+        key: razorpayKey,
+        amount: gateway.amount,
+        currency: gateway.currency,
+        order_id: gateway.orderId,
+        name: TRUST_NAME,
+        description: purpose,
+        prefill: { method }, // preselects the matching tab inside Razorpay's own UI
+        theme: { color: '#f97316' },
+        handler: async function (response) {
+          try {
+            const verifyRes = await verifyPayment({
+              sessionId,
+              donationId,
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+            setResult({ ok: true, ...verifyRes.data });
+          } catch (err) {
+            setResult({ ok: false, error: err.message || 'Payment could not be verified. Please contact us with your payment ID.' });
+          }
+          setStep('result');
+        },
+        modal: {
+          // Fires if the user closes the Razorpay modal without paying
+          ondismiss: function () {
+            setResult({ ok: false, error: 'Payment was cancelled.' });
+            setStep('result');
+          },
+        },
+      };
+      console.log("Razorpay Options:", options);
+      const razorpay = new window.Razorpay(options);
+      razorpay.on('payment.failed', function (response) {
+        setResult({ ok: false, error: response.error?.description || 'Payment failed. Please try again.' });
+        setStep('result');
+      });
+      razorpay.open();
     } catch (err) {
-      setResult({ ok: false, error: err.message || 'Payment failed. Please try again.' });
+      setResult({ ok: false, error: err.message || 'Could not start payment. Please try again.' });
+      setStep('result');
     }
-    setStep('result');
   }
 
   function copyUPI() {
@@ -83,7 +147,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
               ))}
             </div>
 
-            {/* UPI detail */}
+            {/* UPI detail — manual/backup option shown alongside Checkout */}
             {method === 'upi' && (
               <div className="bg-purple-50 rounded-xl p-4 text-center">
                 <div className="bg-white rounded-lg p-2 w-40 h-40 mx-auto mb-3 shadow">
@@ -103,45 +167,26 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
                   </button>
                 </div>
                 <p className="text-xs text-gray-400 mt-1">PhonePe · GPay · Paytm · BHIM</p>
+                <p className="text-xs text-gray-400 mt-2">Or tap "Pay" below to pay securely via Razorpay</p>
               </div>
             )}
 
-            {/* Card form stub */}
+            {/* Card / net banking / wallet: actual entry happens inside Razorpay Checkout */}
             {method === 'card' && (
-              <div className="space-y-3">
-                <input
-                  placeholder="Card number"
-                  maxLength={19}
-                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-400 outline-none text-sm"
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <input placeholder="MM / YY" className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-400 outline-none text-sm" />
-                  <input placeholder="CVV" type="password" maxLength={4} className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-400 outline-none text-sm" />
-                </div>
-                <input placeholder="Name on card" className="w-full px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-orange-400 outline-none text-sm" />
+              <div className="text-xs text-gray-500 text-center bg-gray-50 rounded-lg p-3">
+                You'll enter your card details securely on Razorpay's own payment screen.
               </div>
             )}
 
-            {/* Net banking stub */}
             {method === 'netbanking' && (
-              <div>
-                <select className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-orange-400 outline-none text-sm text-gray-700">
-                  <option value="">Select your bank</option>
-                  {['HDFC Bank', 'SBI', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank', 'Bank of Baroda', 'Canara Bank'].map(b => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
+              <div className="text-xs text-gray-500 text-center bg-gray-50 rounded-lg p-3">
+                You'll pick your bank and log in securely on Razorpay's own payment screen.
               </div>
             )}
 
-            {/* Wallet stub */}
             {method === 'wallet' && (
-              <div className="grid grid-cols-3 gap-3">
-                {['Paytm', 'Amazon Pay', 'Mobikwik'].map(w => (
-                  <div key={w} className="border-2 border-gray-200 rounded-lg p-3 text-center text-sm text-gray-600 cursor-pointer hover:border-orange-400 hover:bg-orange-50 transition">
-                    {w}
-                  </div>
-                ))}
+              <div className="text-xs text-gray-500 text-center bg-gray-50 rounded-lg p-3">
+                You'll pick your wallet and authenticate securely on Razorpay's own payment screen.
               </div>
             )}
 
@@ -149,24 +194,15 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
               <Shield className="w-3 h-3" /> 256-bit SSL Encrypted · Secure Payment
             </div>
 
-            {/* Action buttons */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            {/* Action button */}
+            <div className="pt-2">
               <button
-                onClick={() => handlePay('failure')}
-                className="py-2 rounded-lg border-2 border-red-300 text-red-600 text-sm font-semibold hover:bg-red-50 transition"
-              >
-                Simulate Failure
-              </button>
-              <button
-                onClick={() => handlePay('success')}
-                className="py-3 rounded-lg bg-linear-to-r from-orange-500 to-red-500 text-white font-bold shadow hover:from-orange-600 hover:to-red-600 transition text-sm"
+                onClick={handlePay}
+                className="w-full py-3 rounded-lg bg-linear-to-r from-orange-500 to-red-500 text-white font-bold shadow hover:from-orange-600 hover:to-red-600 transition text-sm"
               >
                 Pay ₹{Number(amount).toLocaleString('en-IN')}
               </button>
             </div>
-            <p className="text-center text-xs text-gray-400 italic">
-              Demo mode — use "Simulate Failure" or "Pay" to test both flows
-            </p>
           </div>
         )}
 

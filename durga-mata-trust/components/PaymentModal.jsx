@@ -1,9 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import {
-  X, Smartphone, CreditCard, Building2, Wallet,
-  CheckCircle, XCircle, Loader2, Shield, Copy, Check
-} from 'lucide-react';
+import { X, Smartphone, CreditCard, Building2, Wallet, CheckCircle, XCircle, Loader2, Shield, Copy, Check } from 'lucide-react';
 import { initiatePayment, simulatePayment } from '@/api/donationsApi';
 
 const TRUST_UPI = 'vyapar.176548150186@hdfcbank';
@@ -39,7 +36,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
   function copyUPI() {
     navigator.clipboard?.writeText(TRUST_UPI);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 5000);
   }
 
   return (

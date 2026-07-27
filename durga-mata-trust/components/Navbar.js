@@ -20,7 +20,6 @@ const Navbar = ({ currentPage }) => {
         { id: 'trust-members', label: 'Trust Members' }
       ]
     },
-    { id: 'pooja-timings', label: 'Pooja Timings', icon: Clock },
     { id: 'events', label: 'Events & Festivals', icon: Calendar },
     { id: 'gallery', label: 'Gallery', icon: Image },
   ];

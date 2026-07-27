@@ -20,7 +20,7 @@ async function request(path, options = {}) {
 export async function submitDonation(payload) {
   return request('/donations', { method: 'POST', body: JSON.stringify(payload) });
 }
-
+ 
 /** Get a single donation by id or donationId (public-safe fields). */
 export async function getDonation(id) {
   return request(`/donations/${id}`);

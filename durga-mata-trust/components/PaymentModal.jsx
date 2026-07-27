@@ -41,7 +41,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+      <div className="relative max-w-md max-h-[95vh] bg-white rounded-2xl shadow-2xl w-full overflow-y-auto scrollbar-hide">
 
         {/* Header */}
         <div className="bg-linear-to-r from-orange-500 to-red-500 p-6 text-white">

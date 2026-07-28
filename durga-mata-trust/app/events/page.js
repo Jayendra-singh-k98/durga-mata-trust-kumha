@@ -24,33 +24,6 @@ const EventsFestivals = () => {
       color: 'yellow',
       icon: Sparkles
     },
-    {
-      title: 'Bhandara & Annadaan',
-      date: 'November 10, 2024',
-      time: '11:00 AM - 3:00 PM',
-      description: 'Monthly community feast serving traditional vegetarian meals to all devotees. Everyone is welcome to participate in this sacred tradition of food service.',
-      highlights: ['Free Vegetarian Meal', 'Open to All', 'Community Service', 'Prasad Distribution'],
-      color: 'green',
-      icon: Gift
-    },
-    {
-      title: 'Kartik Purnima Special',
-      date: 'November 15, 2024',
-      time: '6:00 PM - 9:00 PM',
-      description: 'Full moon celebration with special evening aarti, devotional bhajan sandhya, and discourse on spiritual significance of Kartik month.',
-      highlights: ['Special Aarti', 'Bhajan Sandhya', 'Spiritual Discourse', 'Prasad'],
-      color: 'purple',
-      icon: Music
-    },
-    {
-      title: 'Youth Spiritual Workshop',
-      date: 'November 20, 2024',
-      time: '10:00 AM - 4:00 PM',
-      description: 'Interactive workshop for youth on Hindu philosophy, meditation techniques, and connecting with spiritual roots while balancing modern life.',
-      highlights: ['Meditation Session', 'Scriptural Learning', 'Q&A with Scholars', 'Youth Activities'],
-      color: 'blue',
-      icon: Users
-    }
   ];
 
   const pastEvents = [
@@ -61,27 +34,6 @@ const EventsFestivals = () => {
       attendance: '10,000+ devotees',
       image: '🎭'
     },
-    {
-      title: 'Independence Day Blood Donation Camp',
-      date: 'August 15, 2024',
-      description: 'Organized blood donation camp in collaboration with Red Cross. 150 units collected, helping save lives in our community.',
-      attendance: '150 donors',
-      image: '🩸'
-    },
-    {
-      title: 'Guru Purnima Celebration',
-      date: 'July 21, 2024',
-      description: 'Special program honoring spiritual teachers with traditional pooja, pada pooja ceremony, and spiritual discourse by renowned scholar.',
-      attendance: '2,000+ devotees',
-      image: '🙏'
-    },
-    {
-      title: 'Summer Spiritual Camp for Children',
-      date: 'May 15-31, 2024',
-      description: 'Two-week camp teaching 100+ children about Hindu culture, values, bhajans, yoga, and moral stories through fun activities.',
-      attendance: '100+ children',
-      image: '👶'
-    }
   ];
 
   const majorFestivals = [
@@ -93,54 +45,12 @@ const EventsFestivals = () => {
       color: 'orange'
     },
     {
-      name: 'Diwali',
-      description: 'Festival of lights celebrating the return of Lord Rama and worship of Goddess Lakshmi',
-      significance: 'Triumph of light over darkness, prosperity and new beginnings',
-      activities: ['Lakshmi Pooja', 'Diya Lighting', 'Rangoli', 'Fireworks', 'Sweet Distribution'],
-      color: 'yellow'
-    },
-    {
-      name: 'Mahashivratri',
-      description: 'Night-long celebration in honor of Lord Shiva with continuous abhishek and bhajans',
-      significance: 'Union of Shiva and Shakti, overcoming darkness and ignorance',
-      activities: ['Hourly Abhishek', 'Rudrabhishek', 'All-night Bhajans', 'Prasad Distribution'],
-      color: 'blue'
-    },
-    {
-      name: 'Holi',
-      description: 'Festival of colors celebrating the arrival of spring and victory of good over evil',
-      significance: 'Joy, forgiveness, and renewal of relationships',
-      activities: ['Holika Dahan', 'Color Celebration', 'Music & Dance', 'Special Thandai'],
-      color: 'pink'
-    },
-    {
-      name: 'Janmashtami',
-      description: 'Celebration of Lord Krishna\'s birth with midnight ceremony and devotional programs',
-      significance: 'Birth of divine protector, triumph of dharma',
-      activities: ['Dahi Handi', 'Midnight Celebration', 'Jhula Ceremony', 'Krishna Bhajans'],
-      color: 'indigo'
-    },
-    {
-      name: 'Ram Navami',
-      description: 'Birthday of Lord Rama celebrated with path, bhajans, and community activities',
-      significance: 'Ideal of righteousness, dharma, and devotion',
-      activities: ['Ram Path', 'Bhajan Sandhya', 'Sundarkand Path', 'Prasad Distribution'],
-      color: 'green'
-    },
-    {
       name: 'Ganesh Chaturthi',
       description: 'Ten-day celebration of Lord Ganesha\'s birth with daily rituals and grand visarjan',
       significance: 'Remover of obstacles, beginning of new ventures',
       activities: ['Daily Pooja', 'Modak Offerings', 'Cultural Programs', 'Visarjan Procession'],
       color: 'red'
     },
-    {
-      name: 'Durga Puja',
-      description: 'Special worship of Goddess Durga during Navratri with elaborate decorations',
-      significance: 'Divine mother\'s protection and blessings',
-      activities: ['Pandal Decoration', 'Daily Aarti', 'Dhunuchi Dance', 'Sindoor Khela'],
-      color: 'purple'
-    }
   ];
 
   const getColorClasses = (color) => {
@@ -417,47 +327,6 @@ const EventsFestivals = () => {
                 Free community lunch serving traditional vegetarian meals to all visitors.
               </p>
             </div>
-          </div>
-        </section>
-
-        {/* Call to Action */}
-        <section className="bg-linear-to-r from-orange-600 via-red-600 to-pink-600 rounded-2xl shadow-2xl p-8 md:p-12 text-white text-center">
-          <h2 className="text-4xl font-bold mb-6">Join Our Celebrations!</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-            Be part of our vibrant spiritual community. Participate in festivals, volunteer for events, 
-            or simply come and experience the joy of collective devotion.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            <div className="bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-lg">
-              <p className="text-sm opacity-90">Contact for Event Info</p>
-              <p className="font-bold text-lg">+91 [Phone Number]</p>
-            </div>
-            <div className="bg-opacity-20 backdrop-blur-sm px-6 py-3 rounded-lg">
-              <p className="text-sm opacity-90">Email Us</p>
-              <p className="font-bold text-lg">events@[templename].org</p>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-white text-orange-600 hover:bg-orange-50 font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center gap-2">
-              <Calendar className="w-5 h-5" />
-              View Full Calendar
-            </button>
-            <button className="bg-yellow-400 text-gray-800 hover:bg-yellow-300 font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              Volunteer with Us
-            </button>
-            <button className="bg-green-500 text-white hover:bg-green-600 font-bold py-4 px-8 rounded-lg shadow-lg transition-all transform hover:scale-105 flex items-center gap-2">
-              <Heart className="w-5 h-5" />
-              Support Our Events
-            </button>
-          </div>
-
-          <div className="mt-8 pt-8 border-t border-white border-opacity-30">
-            <p className="text-lg italic">
-              "Festivals unite us in joy, devotion unites us in spirit"
-            </p>
           </div>
         </section>
       </div>

@@ -47,10 +47,9 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
         setStep('result');
         return;
       }
-      console.log("Payment session initiated:", initRes.data);
 
       const razorpayKey = gateway.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
-      console.log("Razorpay Key:", razorpayKey);
+      
       if (!razorpayKey) {
         throw new Error('Razorpay public key is not configured.');
       }
@@ -87,7 +86,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
           },
         },
       };
-      console.log("Razorpay Options:", options);
+
       const razorpay = new window.Razorpay(options);
       razorpay.on('payment.failed', function (response) {
         setResult({ ok: false, error: response.error?.description || 'Payment failed. Please try again.' });

@@ -8,8 +8,6 @@ import { getDB, getDonorCategory } from '../db/database.js';
 
 const router = Router();
 
-// Server-side only. NEVER prefix these with NEXT_PUBLIC_ / VITE_ — that
-// exposes them to the browser bundle. Only the key_id may ever reach the client.
 const RAZORPAY_ID = process.env.RAZORPAY_KEY_ID;
 const RAZORPAY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 
@@ -22,7 +20,6 @@ const razorpay = new Razorpay({
   key_secret: RAZORPAY_SECRET,
 });
 
-// POST /api/payments/initiate — Start a payment session and create a real Razorpay order
 router.post('/initiate', async (req, res) => {
   try {
     const db = getDB();

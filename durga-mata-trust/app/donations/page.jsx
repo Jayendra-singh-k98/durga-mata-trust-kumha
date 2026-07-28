@@ -311,7 +311,7 @@ export default function Donations() {
                   flex items-center justify-center gap-3"
               >
                 {submitting && <Loader2 className="w-5 h-5 animate-spin" />}
-                {submitting ? 'Submitting…' : 'Proceed to Payment'}
+                {submitting ? 'Submitting…' : 'Proceed to Razorpay'}
               </button>
               <p className="text-center text-gray-500 text-sm mt-3">You will be redirected to secure payment gateway</p>
             </div>
@@ -329,35 +329,10 @@ export default function Donations() {
             <p className="text-gray-700 text-lg">Multiple secure and convenient ways to contribute</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
 
             {/* UPI */}
-            <div className="bg-linear-to-br from-purple-50 to-purple-100 rounded-2xl shadow-xl p-8 border-t-4 border-purple-500">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-linear-to-r from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Smartphone className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">UPI Payment</h3>
-                <p className="text-gray-600 text-sm">Instant and secure</p>
-              </div>
-              <div className="bg-white rounded-lg p-6 mb-4 text-center">
-                <div className="bg-white rounded-lg p-2 w-40 h-40 mx-auto mb-4 shadow">
-                  <img
-                    src="/scanner.jpeg"
-                    alt="UPI QR Code - Maa Durga Charitable Trust Kumha"
-                    className="w-full h-full object-contain"
-                  />
-                </div>
-                <p className="text-xs text-gray-500 mb-1">UPI ID</p>
-                <p className="text-sm font-bold text-purple-700 font-mono break-all">{TRUST.upiId}</p>
-                <p className="text-xs text-gray-400 mt-2">PhonePe · GPay · Paytm · BHIM</p>
-              </div>
-              {['Instant confirmation', 'No transaction fees', 'Available 24/7'].map(t => (
-                <p key={t} className="flex items-center gap-2 text-sm text-gray-600 mb-1">
-                  <CheckCircle className="w-4 h-4 text-green-600" />{t}
-                </p>
-              ))}
-            </div>
+            
 
             {/* Bank Transfer */}
             <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl shadow-xl p-8 border-t-4 border-blue-500">

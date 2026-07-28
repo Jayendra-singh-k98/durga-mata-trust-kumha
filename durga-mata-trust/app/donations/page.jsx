@@ -50,7 +50,7 @@ const FIELD_CLS = 'w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:bo
 export default function Donations() {
   const [form, setForm] = useState({
     fullName: '', email: '', phone: '', panNumber: '',
-    purpose: '', message: '', displayName: true,
+    purpose: '', message: '', displayName: false,
   });
   const [selectedAmount, setSelectedAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
@@ -102,7 +102,7 @@ export default function Donations() {
   }
 
   function handleField(e) {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked} = e.target;
     setForm(f => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
     if (fieldErrors[name]) setFieldErrors(fe => ({ ...fe, [name]: undefined }));
   }
@@ -266,8 +266,8 @@ export default function Donations() {
                     type="button" key={a}
                     onClick={() => { setSelectedAmount(a); setCustomAmount(''); if (fieldErrors.amount) setFieldErrors(fe => ({ ...fe, amount: undefined })); }}
                     className={`py-3 px-4 rounded-lg font-bold transition-all ${selectedAmount === a
-                        ? 'bg-linear-to-r from-orange-500 to-red-500 text-white shadow-lg'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                      ? 'bg-linear-to-r from-orange-500 to-red-500 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                   >
                     ₹{a}
                   </button>
@@ -303,6 +303,21 @@ export default function Donations() {
               />
             </div>
 
+            
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="displayName"
+                  checked={form.displayName}
+                  onChange={handleField}
+                  className="mt-1 h-5 w-5 rounded border-orange-300 text-orange-600 focus:ring-orange-500"
+                />
+
+                <div>
+                  <p className="font-semibold text-gray-800">Show my name in the public donor list</p>
+                </div>
+              </label>
+
             <div className="pt-4">
               <button
                 type="submit" disabled={submitting}
@@ -315,6 +330,7 @@ export default function Donations() {
               </button>
               <p className="text-center text-gray-500 text-sm mt-3">You will be redirected to secure payment gateway</p>
             </div>
+
           </form>
         </section>
 
@@ -332,7 +348,7 @@ export default function Donations() {
           <div className="grid md:grid-cols-2 gap-8">
 
             {/* UPI */}
-            
+
 
             {/* Bank Transfer */}
             <div className="bg-linear-to-br from-blue-50 to-blue-100 rounded-2xl shadow-xl p-8 border-t-4 border-blue-500">

@@ -10,16 +10,16 @@ const router = Router();
 
 // Server-side only. NEVER prefix these with NEXT_PUBLIC_ / VITE_ — that
 // exposes them to the browser bundle. Only the key_id may ever reach the client.
-const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
-const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+const RAZORPAY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 
-if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
-  console.warn('[payments] RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET are not set. Payment routes will fail.');
+if (!RAZORPAY_ID || !RAZORPAY_SECRET) {
+  console.warn('[payments] RAZORPAY_ID / RAZORPAY_SECRET are not set. Payment routes will fail.');
 }
 
 const razorpay = new Razorpay({
-  key_id: RAZORPAY_KEY_ID,
-  key_secret: RAZORPAY_KEY_SECRET,
+  key_id: RAZORPAY_ID,
+  key_secret: RAZORPAY_SECRET,
 });
 
 // POST /api/payments/initiate — Start a payment session and create a real Razorpay order
@@ -88,7 +88,7 @@ router.post('/initiate', async (req, res) => {
         method,
         expiresAt,
         gateway: {
-          keyId: RAZORPAY_KEY_ID,
+          keyId: RAZORPAY_ID,
           orderId: order.id,
           amount: order.amount,
           currency: order.currency,
@@ -137,7 +137,7 @@ router.post('/verify', async (req, res) => {
     // HMAC signature server-side with the secret key and compare it.
     // Never trust a client-supplied "status" field for this.
     const expectedSignature = crypto
-      .createHmac('sha256', RAZORPAY_KEY_SECRET)
+      .createHmac('sha256', RAZORPAY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');
 

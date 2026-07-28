@@ -23,7 +23,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
 
   function loadRazorpay() {
     return new Promise((resolve) => {
-      if (window.Razorpay) return resolve(true);
+      // if (window.Razorpay) return resolve(true);
       const script = document.createElement('script');
       script.src = 'https://checkout.razorpay.com/v1/checkout.js';
       script.onload = () => resolve(true);
@@ -38,6 +38,7 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
     setStep('processing');
     try {
       const initRes = await initiatePayment(donationId, method);
+      
       const { sessionId, gateway } = initRes.data;
 
       const loaded = await loadRazorpay();
@@ -46,8 +47,10 @@ export default function PaymentModal({ donation, onClose, onSuccess }) {
         setStep('result');
         return;
       }
+      console.log("Payment session initiated:", initRes.data);
 
       const razorpayKey = gateway.keyId || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+      console.log("Razorpay Key:", razorpayKey);
       if (!razorpayKey) {
         throw new Error('Razorpay public key is not configured.');
       }

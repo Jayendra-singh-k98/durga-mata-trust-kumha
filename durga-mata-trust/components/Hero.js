@@ -162,27 +162,6 @@ const HomePage = () => {
                 All devotees are cordially invited.
               </p>
             </div>
-            <div className="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-              <span className="text-orange-600 text-xl font-bold mt-1">•</span>
-              <p className="text-gray-700">
-                <strong>Free Prasad Distribution:</strong> Everyday from 7:00 PM to 8:00 PM.
-                Blessed prasad will be distributed to all visiting devotees.
-              </p>
-            </div>
-            {/* <div className="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-                <span className="text-orange-600 text-xl font-bold mt-1">•</span>
-                <p className="text-gray-700">
-                  <strong>Monthly Bhajan Sandhya:</strong> Join us for devotional bhajan and kirtan
-                  every full moon night (Purnima) at 8:00 PM.
-                </p>
-              </div>
-              <div className="flex items-start gap-3 bg-white p-4 rounded-lg shadow-sm">
-                <span className="text-orange-600 text-xl font-bold mt-1">•</span>
-                <p className="text-gray-700">
-                  <strong>Online Donation Portal:</strong> Now accepting donations through UPI,
-                  Net Banking, and Cards. Contribute to temple maintenance and charitable activities.
-                </p>
-              </div> */}
           </div>
         </div>
       </section>
@@ -192,31 +171,7 @@ const HomePage = () => {
         <h3 className="text-4xl font-bold text-center text-gray-800 mb-12">
           Temple Highlights
         </h3>
-        <div className="grid md:grid-cols-3 gap-8">
-
-          {/* Pooja Timings */}
-          <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-300 border-t-4 border-orange-500">
-            <div className="flex justify-center mb-4">
-              <Clock className="w-16 h-16 text-orange-600" />
-            </div>
-            <h4 className="text-2xl font-bold text-center text-gray-800 mb-4">
-              Pooja Timings
-            </h4>
-            <div className="space-y-3 text-gray-700">
-              <div className="flex justify-between border-b pb-2">
-                <span className="font-semibold">Morning Aarti:</span>
-                <span>4:00 AM</span>
-              </div>
-              <div className="flex justify-between border-b pb-2">
-                <span className="font-semibold">Evening Aarti:</span>
-                <span>6:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Temple Open:</span>
-                <span>3:45 AM - 8:00 PM</span>
-              </div>
-            </div>
-          </div>
+        <div className="grid md:grid-cols-2 gap-8">
 
           {/* Donations */}
           <div className="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-300 border-t-4 border-red-500">

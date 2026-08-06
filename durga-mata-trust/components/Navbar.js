@@ -37,7 +37,7 @@ const Navbar = ({ currentPage }) => {
   const handleNavClick = (pageId) => {
     router.push(`/${pageId}`);
     setIsOpen(false);
-    setAboutDropdown(false);
+    setOpenDropdown(null);
   };
 
 

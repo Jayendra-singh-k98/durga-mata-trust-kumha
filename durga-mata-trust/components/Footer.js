@@ -34,21 +34,7 @@ const Footer = () => {
 
           {/* Temple Timings & Social */}
           <div>
-            <h3 className="text-lg font-bold mb-4 text-orange-400">Temple Timings</h3>
-            <div className="space-y-2 text-sm text-gray-300 mb-6">
-              <div className="flex justify-between">
-                <span>Morning Aarti : </span>
-                <span className="font-semibold">4:00 AM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Evening Aarti:</span>
-                <span className="font-semibold">6:00 PM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Temple Open:</span>
-                <span className="font-semibold">3:45 AM - 8:00 PM</span>
-              </div>
-            </div>
+
 
             <h3 className="text-lg font-bold mb-3 text-orange-400">Follow Us</h3>
             <div className="flex gap-3">

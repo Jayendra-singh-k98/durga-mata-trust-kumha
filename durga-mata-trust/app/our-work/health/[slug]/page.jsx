@@ -1,5 +1,7 @@
 "use client";
 import ActivityDetailPage from '@/components/ActivityDetailPage';
+import {use} from 'react';
 export default function HealthActivityPage({ params }) {
-  return <ActivityDetailPage categorySlug="health" activitySlug={params.slug} />;
+  const { slug } = use(params);
+  return <ActivityDetailPage categorySlug="health" activitySlug={slug} />;
 }

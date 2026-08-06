@@ -170,11 +170,11 @@ export default function ActivityDetailPage({ categorySlug, activitySlug }) {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     onError={e => e.target.parentElement.style.display = 'none'}
                   />
-                  {img.caption && (
+                  {/* {img.caption && (
                     <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs p-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       {img.caption}
                     </div>
-                  )}
+                  )} */}
                 </div>
               ))}
             </div>

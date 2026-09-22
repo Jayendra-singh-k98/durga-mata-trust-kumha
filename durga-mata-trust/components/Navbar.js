@@ -40,6 +40,10 @@ const Navbar = ({ currentPage }) => {
     setOpenDropdown(null);
   };
 
+  const closeSidebar = () => {
+    setIsOpen(false);
+    setOpenDropdown(null);
+  };
 
   return (
     <nav className="bg-linear-to-r from-orange-600 via-red-600 to-orange-600 shadow-lg sticky top-0 z-50">
@@ -81,8 +85,8 @@ const Navbar = ({ currentPage }) => {
                             key={item.id}
                             onClick={() => handleNavClick(item.id)}
                             className={`w-full text-left px-4 py-3 hover:bg-orange-50 transition-colors text-sm ${currentPage === item.id
-                                ? 'bg-orange-100 text-orange-700 font-semibold'
-                                : 'text-gray-700'
+                              ? 'bg-orange-100 text-orange-700 font-semibold'
+                              : 'text-gray-700'
                               }`}
                           >
                             {item.label}
@@ -100,8 +104,8 @@ const Navbar = ({ currentPage }) => {
                   key={link.id}
                   onClick={() => handleNavClick(link.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-semibold ${currentPage === link.id
-                      ? 'bg-white text-orange-600'
-                      : 'text-white hover:bg-orange-500/30 hover:bg-opacity-20'
+                    ? 'bg-white text-orange-600'
+                    : 'text-white hover:bg-orange-500/30 hover:bg-opacity-20'
                     }`}
                 >
                   <IconComponent className="w-4 h-4" />
@@ -114,85 +118,105 @@ const Navbar = ({ currentPage }) => {
               onClick={() => handleNavClick('donations')}
               className="hidden lg:block bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold px-6 py-2 rounded-lg transition-all transform hover:scale-105 shadow-lg"
             >
-              
               Donate Now
             </button>
           </div>
 
-
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button (three-line) */}
           <button
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen(true)}
             className="lg:hidden text-white p-2 hover:bg-orange-500/30 hover:bg-opacity-20 rounded-lg transition-all"
+            aria-label="Open menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Sidebar Overlay - starts below navbar */}
+      <div
+        className={`fixed top-20 left-0 right-0 bottom-0 bg-black/50 z-40 transition-opacity duration-300 lg:hidden ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
+        onClick={closeSidebar}
+      />
+
+      {/* Mobile Sidebar Panel - starts below navbar, right side */}
+      <div
+        className={`fixed top-20 right-0 bottom-0 w-72 max-w-[85%] bg-orange-50 z-50 shadow-2xl transform transition-transform duration-300 ease-in-out lg:hidden ${isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+      >
+        {/* Sidebar Header */}
+        <div className="flex items-center justify-between border-b border-orange-200 px-4 py-4 bg-orange-100">
+          <span className="font-bold text-orange-800">Menu</span>
+          <button
+            onClick={closeSidebar}
+            className="text-orange-700 p-2 hover:bg-orange-200 rounded-lg transition-all"
+            aria-label="Close menu"
+          >
+            <X className="w-6 h-6" />
           </button>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="lg:hidden pb-4">
-            <div className="flex flex-col gap-2">
-              {navigationLinks.map((link) => {
-                if (link.dropdown) {
-                  return (
-                    <div key={link.id}>
-                      <button
-                        onClick={() => setOpenDropdown(openDropdown === link.id ? null : link.id)}
-                        className="w-full text-left text-white hover:bg-orange-500/30 hover:bg-opacity-20 px-4 py-3 rounded-lg transition-all font-semibold flex items-center justify-between"
-                      >
-                        <span className="flex items-center gap-2">
-                          <Info className="w-4 h-4" />
-                          {link.label}
-                        </span>
-                        <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === link.id ? 'rotate-180' : ''}`} />
-                      </button>
-
-                      {openDropdown === link.id && (
-                        <div className="ml-6 mt-2 space-y-2">
-                          {link.dropdown.map((item) => (
-                            <button
-                              key={item.id}
-                              onClick={() => handleNavClick(item.id)}
-                              className={`w-full text-left px-4 py-2 rounded-lg transition-all ${currentPage === item.id
-                                  ? 'bg-white text-orange-600 font-semibold'
-                                  : 'text-white hover:bg-orange-500/30 hover:bg-opacity-20'
-                                }`}
-                            >
-                              {item.label}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                const IconComponent = link.icon;
-                return (
+        {/* Sidebar Links */}
+        <div className="flex flex-col gap-1 p-4 overflow-y-auto h-[calc(100%-4.5rem)]">
+          {navigationLinks.map((link) => {
+            if (link.dropdown) {
+              return (
+                <div key={link.id}>
                   <button
-                    key={link.id}
-                    onClick={() => handleNavClick(link.id)}
-                    className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all font-semibold ${currentPage === link.id
-                        ? 'bg-white text-orange-600'
-                        : 'text-white hover:bg-orange-500/30 hover:bg-opacity-20'
-                      }`}
+                    onClick={() => setOpenDropdown(openDropdown === link.id ? null : link.id)}
+                    className="w-full text-left text-orange-900 hover:bg-orange-100 px-4 py-3 rounded-lg transition-all font-semibold flex items-center justify-between"
                   >
-                    <IconComponent className="w-4 h-4" />
-                    {link.label}
+                    <span className="flex items-center gap-2">
+                      <link.icon className="w-4 h-4" />
+                      {link.label}
+                    </span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === link.id ? 'rotate-180' : ''}`} />
                   </button>
-                );
-              })}
 
+                  {openDropdown === link.id && (
+                    <div className="ml-6 mt-1 space-y-1">
+                      {link.dropdown.map((item) => (
+                        <button
+                          key={item.id}
+                          onClick={() => handleNavClick(item.id)}
+                          className={`w-full text-left px-4 py-2 rounded-lg transition-all text-sm ${currentPage === item.id
+                            ? 'bg-orange-200 text-orange-800 font-semibold'
+                            : 'text-orange-800 hover:bg-orange-100'
+                            }`}
+                        >
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            const IconComponent = link.icon;
+            return (
               <button
-                onClick={() => handleNavClick('donations')}
-                className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold px-4 py-3 rounded-lg transition-all mt-2"
+                key={link.id}
+                onClick={() => handleNavClick(link.id)}
+                className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-all font-semibold ${currentPage === link.id
+                  ? 'bg-orange-200 text-orange-800'
+                  : 'text-orange-900 hover:bg-orange-100'
+                  }`}
               >
-                Donate Now
+                <IconComponent className="w-4 h-4" />
+                {link.label}
               </button>
-            </div>
-          </div>
-        )}
+            );
+          })}
+
+          <button
+            onClick={() => handleNavClick('donations')}
+            className="bg-yellow-400 hover:bg-yellow-300 text-gray-800 font-bold px-4 py-3 rounded-lg transition-all mt-2"
+          >
+            Donate Now
+          </button>
+        </div>
       </div>
     </nav>
   );

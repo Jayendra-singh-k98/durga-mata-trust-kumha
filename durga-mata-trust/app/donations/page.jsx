@@ -116,17 +116,6 @@ export default function Donations() {
   return (
     <div className="min-h-screen bg-linear-to-b from-orange-50 to-yellow-50">
 
-      {/* Hero */}
-      <section className="bg-linear-to-r from-orange-600 via-red-600 to-pink-600 text-white py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <div className="text-6xl mb-4">🙏</div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-2">{TRUST.nameHindi}</h1>
-          <p className="text-xl md:text-2xl font-semibold opacity-95 mb-2">{TRUST.name}</p>
-          <p className="text-sm opacity-80 mb-4">Reg. No. {TRUST.regNo} | Rajasthan Public Trust Act 1959</p>
-          <div className="w-24 h-1 bg-white/50 rounded-full mx-auto mb-4" />
-          <p className="text-lg opacity-90">Your Contribution Enables Divine Service and Community Welfare</p>
-        </div>
-      </section>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
 
@@ -169,37 +158,6 @@ export default function Donations() {
           </div>
         </section>
 
-        {/* Purpose cards */}
-        <section className="mb-12">
-          <div className="text-center mb-8">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Choose Your Donation Purpose</h2>
-            <div className="w-24 h-1 bg-orange-600 rounded-full mx-auto mb-4" />
-            <p className="text-gray-700 text-lg">Select how you would like your contribution to serve Maa Durga and the community</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PURPOSES.map(p => {
-              const Icon = p.icon;
-              return (
-                <div
-                  key={p.title}
-                  onClick={() => syncPurpose(p.title)}
-                  className={`bg-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition-all cursor-pointer border-t-4 ${COLOR_BORDER[p.color]}
-                    ${selectedPurpose === p.title ? 'ring-4 ring-offset-2 ring-orange-400' : ''}`}
-                >
-                  <div className={`w-14 h-14 bg-linear-to-r ${COLOR_GRADIENT[p.color]} rounded-full flex items-center justify-center mb-4`}>
-                    <Icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">{p.title}</h3>
-                  <p className="text-gray-600 text-sm mb-3 leading-relaxed">{p.description}</p>
-                  {p.examples && <p className="text-xs text-gray-500 italic">Examples: {p.examples}</p>}
-                </div>
-              );
-            })}
-          </div>
-          {fieldErrors.purpose && (
-            <p className="text-red-500 text-sm text-center mt-3">{fieldErrors.purpose}</p>
-          )}
-        </section>
 
         {/* ─── Donation Form ─────────────────────── */}
         <section className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-12">
@@ -420,50 +378,6 @@ export default function Donations() {
           </div>
         </section>
 
-        {/* Transparency */}
-        <section className="bg-linear-to-r from-blue-600 to-indigo-700 rounded-2xl shadow-2xl p-8 md:p-12 text-white mb-12">
-          <div className="flex items-start gap-4">
-            <Shield className="w-12 h-12 shrink-0 mt-1" />
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Our Commitment to Transparency</h2>
-              <p className="text-lg mb-6 leading-relaxed">
-                {TRUST.name} is registered under Rajasthan Public Trust Act 1959 (Reg. No. {TRUST.regNo}).
-                We are committed to using every donation responsibly for the purposes of Maa Durga's worship and community welfare.
-              </p>
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  { title: 'Financial Transparency', points: ['All donations deposited in HDFC Bank account', 'Regular income-expenditure accounts maintained', 'Annual audit reports prepared', 'Compliance with Rajasthan Public Trust Act 1959'] },
-                  { title: 'Donor Rights', points: ['Official receipt for all donations', 'Option to specify donation purpose', 'Name displayed only with your consent', 'Contact us anytime for fund utilisation details'] },
-                ].map(({ title, points }) => (
-                  <div key={title} className="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
-                    <h3 className="font-bold mb-2 flex items-center gap-2"><CheckCircle className="w-5 h-5" />{title}</h3>
-                    <ul className="space-y-1 text-sm opacity-90">{points.map(p => <li key={p}>• {p}</li>)}</ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Disclaimer */}
-        <section className="bg-orange-50 border-2 border-orange-300 rounded-2xl p-8 mb-12">
-          <div className="flex items-start gap-4">
-            <AlertCircle className="w-10 h-10 text-orange-600 shrink-0 mt-1" />
-            <div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Important Disclaimer</h2>
-              <div className="space-y-3 text-gray-700 text-sm leading-relaxed">
-                <p><strong>1. No Refunds:</strong> All donations made to the trust are non-refundable. Please ensure your donation amount and purpose are correct before completing the transaction.</p>
-                <p><strong>2. Receipt:</strong> Official donation receipts will be sent via email within 7 working days. For bank transfers, please email transaction details to {TRUST.email}.</p>
-                <p><strong>3. Donation Utilisation:</strong> While we make every effort to use donations for the specified purpose, the trust reserves the right to allocate funds to other charitable objectives in accordance with the trust deed.</p>
-                <p><strong>4. Personal Information:</strong> Donor information is kept confidential and will not be shared with third parties. We may contact donors for donation-related communication only.</p>
-                <p><strong>5. Payment Charges:</strong> For online payments, minimal processing charges may be deducted by the payment gateway provider as per their terms.</p>
-                <p><strong>6. Registration:</strong> This trust is registered under Rajasthan Public Trust Act 1959, Reg. No. {TRUST.regNo}, vide order dated 03/10/2025.</p>
-                <p className="mt-4 pt-4 border-t border-orange-300">By making a donation, you acknowledge that you have read and agree to these terms. For any queries, please contact our office.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Thank you + Contact */}
         <section className="bg-linear-to-r from-pink-600 via-orange-600 to-yellow-600 rounded-2xl shadow-2xl p-8 md:p-12 text-white text-center">
           <div className="text-6xl mb-4">🙏</div>
@@ -475,7 +389,6 @@ export default function Donations() {
               <p className="text-lg">Charity is the highest form of penance</p>
               <p className="text-base opacity-80 mt-2">— माँ दुर्गा आपको सदा आशीर्वाद दें</p>
             </div>
-            <p className="text-xl font-semibold">With heartfelt gratitude and Maa's blessings,<br />{TRUST.name}</p>
           </div>
 
           <div className="mt-10 pt-8 border-t border-white/30">

@@ -88,30 +88,38 @@ const HomePage = () => {
     <div className="min-h-screen bg-linear-to-b from-orange-50 to-white">
 
       {/* Hero Section */}
-      {/* Hero Section */}
-      <section className="relative bg-linear-to-r from-orange-600 via-red-600 to-orange-700 text-white">
+      <section className="relative bg-linear-to-r from-orange-600 via-red-600 to-orange-700 text-white overflow-hidden">
+        {/* Mobile background */}
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center block sm:hidden"
+          style={{ backgroundImage: "url('/maa-durga7.jpeg')" }}
+        ></div>
+
+        {/* Desktop background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center hidden sm:block"
           style={{ backgroundImage: "url('/maa-durga.jpg')" }}
         ></div>
+
         <div className="absolute inset-0 bg-orange-600 opacity-60"></div>
-        <div className="relative max-w-7xl mx-auto px-4 py-24 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
+
+        <div className="relative max-w-7xl mx-auto px-4 py-16 sm:py-20 md:py-24 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             माँ दुर्गा चैरिटेबल ट्रस्ट
           </h1>
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-6">
             Maa Durga Charitable Trust
           </h2>
-          <div className="bg-orange-600 bg-opacity-20 backdrop-blur-sm rounded-lg py-6 px-8 inline-block mb-6">
-            <p className="text-xl md:text-2xl italic font-light mb-2">
+          <div className="bg-orange-600 bg-opacity-20 backdrop-blur-sm rounded-lg py-4 px-5 sm:py-6 sm:px-8 inline-block mb-6">
+            <p className="text-base sm:text-xl md:text-2xl italic font-light mb-2">
               "सर्वे भवन्तु सुखिनः सर्वे सन्तु निरामयाः"
             </p>
-            <p className="text-lg md:text-xl">
+            <p className="text-sm sm:text-lg md:text-xl">
               "May All Be Happy, May All Be Free From Illness"
             </p>
           </div>
-          <div className="flex items-center justify-center gap-2 text-lg">
-            <MapPin className="w-5 h-5" />
+          <div className="flex items-center justify-center gap-2 text-sm sm:text-lg">
+            <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Kumha, Jaipur (Rajasthan)</span>
           </div>
         </div>

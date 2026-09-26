@@ -27,7 +27,7 @@ const HomePage = () => {
 
         const parsedEvents = results.data.map((event) => {
           if (!event.date) return null;
-          
+
           const formattedDate = new Date(
             event.date
           );
@@ -88,8 +88,13 @@ const HomePage = () => {
     <div className="min-h-screen bg-linear-to-b from-orange-50 to-white">
 
       {/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative bg-linear-to-r from-orange-600 via-red-600 to-orange-700 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/maa-durga.jpg')" }}
+        ></div>
+        <div className="absolute inset-0 bg-orange-600 opacity-60"></div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
             माँ दुर्गा चैरिटेबल ट्रस्ट
